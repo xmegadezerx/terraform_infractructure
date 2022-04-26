@@ -8,8 +8,15 @@ provider "aws" {
 
 #creating security group with ssh and http
 
-resource "aws_security_group" "mainsecgroup" {
-         name = "mainsecgroup"
+resource "aws_security_group" "build-server" {
+         name = "buildserver"
+
+         ingress {
+                 from_port = 22
+                 to_port = 22
+                 protocol = "ssh"
+                 cidr_blocks = ["0.0.0.0/0"]
+         }
 
          ingress {
                  from_port = 22
@@ -23,7 +30,6 @@ resource "aws_security_group" "mainsecgroup" {
                  to_port = 80
                  protocol = "tcp"
                  cidr_blocks = ["0.0.0.0/0"]
-
          }
 
          egress {
@@ -35,20 +41,13 @@ resource "aws_security_group" "mainsecgroup" {
 
 }
 
-#creating key-pair for logging into EC2 in us-east-1
-resource "aws_key_pair" "worker-key" {
-  key_name   = "wpserver"
-  public_key = file("~/.ssh/wpserver.pub")
-
-}
-
 #creating aws_instance
 resource "aws_instance" "app_server" {
   ami           = "ami-0e472ba40eb589f49"
   instance_type = "t2.micro"
-  security_groups = ["${aws_security_group.mainsecgroup.name}"]
-  key_name = "wpserver"
+  security_groups = ["${aws_security_group.build-server.name}"]
+  key_name = "build-server"
   tags = {
-    Name = "wpserver"
+    Name = "build-server"
   }
 }
