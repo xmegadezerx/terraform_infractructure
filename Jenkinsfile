@@ -9,12 +9,24 @@ pipeline {
         cleanWs()
       }
     }
- checkout(scm)       
-    stage ('Templates Deployment') {
-        sh """
-          PATH=/bin/terraform
-          terraform init"
+    stage('checkout') {
+      steps {
+        checkout scm
+      }
     }
+
+stage('Set Terraform path') {
+ steps {
+ script {
+ def tfHome = tool name: 'Terraform'
+ env.PATH = “${tfHome}:${env.PATH}”
+ }
+ sh 'terraform — version'
+ 
+ 
+ }
+ }
+    
     stage('terraform') {
       steps {
         sh "terraform apply -auto-approve plan -no-color"
