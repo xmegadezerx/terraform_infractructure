@@ -4,7 +4,7 @@ pipeline {
 tools {
         "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
     }
-    
+
   options {
     skipDefaultCheckout(true)
   }
@@ -17,12 +17,6 @@ tools {
     stage('checkout') {
       steps {
         checkout scm
-      }
-    }
-
-stage('terraforminit') {
-      steps {
-        sh "terraform init"
       }
     }
 
