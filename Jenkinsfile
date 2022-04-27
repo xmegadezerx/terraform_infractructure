@@ -9,10 +9,11 @@ pipeline {
         cleanWs()
       }
     }
-    stage('checkout') {
-      steps {
-        checkout scm
-      }
+ checkout(scm)       
+    stage ('Templates Deployment') {
+        sh """
+          PATH=/bin/terraform
+          terraform init"
     }
     stage('terraform') {
       steps {
