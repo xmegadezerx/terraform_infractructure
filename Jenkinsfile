@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-      terraform "Terraform1.1.9"
-  }
 
   options {
     skipDefaultCheckout(true)
@@ -18,6 +15,13 @@ pipeline {
         checkout scm
       }
     }
+
+steps{
+                sh '''
+                   cd /usr/bin/terraform
+                   terraform init
+                '''
+           }
 
     stage('terraform') {
       steps {
