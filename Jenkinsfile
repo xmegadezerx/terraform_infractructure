@@ -1,6 +1,5 @@
 pipeline {
   agent any
-
   options {
     skipDefaultCheckout(true)
   }
@@ -15,13 +14,6 @@ pipeline {
         checkout scm
       }
     }
-
-steps{
-                sh '''
-                   cd /usr/bin/terraform
-                   terraform init
-                '''
-           }
 
     stage('terraform') {
       steps {
