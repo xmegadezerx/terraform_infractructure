@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  tools {
+      terraform "Terraform1.1.9"
+  }
+
   options {
     skipDefaultCheckout(true)
   }
@@ -15,18 +19,6 @@ pipeline {
       }
     }
 
-stage('Set Terraform path') {
- steps {
- script {
- def tfHome = tool name: 'Terraform'
- env.PATH = “${tfHome}:${env.PATH}”
- }
- sh 'terraform — version'
- 
- 
- }
- }
-    
     stage('terraform') {
       steps {
         sh "terraform apply -auto-approve plan -no-color"
