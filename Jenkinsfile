@@ -1,10 +1,5 @@
 pipeline {
-  agent any
-
-tools {
-        "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
-    }
-
+  agent { label 'linux'}
   options {
     skipDefaultCheckout(true)
   }
@@ -19,10 +14,9 @@ tools {
         checkout scm
       }
     }
-
     stage('terraform') {
       steps {
-        sh "terraform apply -auto-approve plan -no-color"
+        sh './terraformw apply -auto-approve -no-color'
       }
     }
   }
