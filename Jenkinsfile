@@ -1,5 +1,6 @@
 pipeline {
-  agent { label 'jenkins'}
+  agent {'jenkins'}
+
   options {
     skipDefaultCheckout(true)
   }
@@ -14,9 +15,10 @@ pipeline {
         checkout scm
       }
     }
+
     stage('terraform') {
       steps {
-        sh './terraformw apply -auto-approve -no-color'
+        sh "terraform apply -auto-approve plan -no-color"
       }
     }
   }
